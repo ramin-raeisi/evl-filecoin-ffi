@@ -1,0 +1,52 @@
+[package]
+name = "filcrypto"
+description = "FFI Interface to Filecoin Proofs"
+version = "0.7.5"
+authors = ["laser <l@s3r.com>", "Mikhail Komarov <nemo@nil.foundation>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/nilfoundation/filecoin-ffi"
+readme = "README.md"
+edition = "2018"
+publish = false
+
+[lib]
+crate-type = ["rlib", "staticlib"]
+
+[dependencies]
+bls-signatures = { version = "0.10.0", default-features = false, features = ["blst"] }
+blstrs = { version = "0.3" }
+byteorder = "1.2"
+drop_struct_macro_derive = "0.5.0"
+ff = { version = "0.3.1", package = "fff" }
+ffi-toolkit = "0.5.0"
+filepath = "0.1.1"
+groupy = "0.4.1"
+libc = "0.2.58"
+log = "0.4.7"
+fil_logger = "0.1.0"
+rand = "0.7"
+rand_chacha = "0.2.1"
+rayon = "1.2.1"
+rayon-core = "1.6.1"
+rayon-futures = "0.1.1"
+anyhow = "1.0.23"
+bellperson = { git = "ssh://git@github.com/nilfoundation/eliovp-fil-zk.git", branch = "master" }
+serde_json = "1.0.46"
+thread_binder = { git = "ssh://git@github.com/nilfoundation/thread_binder.git", branch = "master" }
+num_cpus = "1.13.0"
+rust-gpu-tools = { git = "ssh://git@github.com/NilFoundation/rust-gpu-tools", branch = "master"}
+storage-proofs-porep = { package = "storage-proofs-porep", git = "ssh://git@github.com/NilFoundation/eliovp-rust-fil-proofs", branch = "master", default-features = false }
+filecoin-proofs-api = { git = "ssh://git@github.com/nilfoundation/eliovp-rust-filecoin-proofs-api.git", branch = "master", default-features = false }
+
+[build-dependencies]
+cbindgen = "= 0.14.0"
+
+[dev-dependencies]
+tempfile = "3.0.8"
+
+[features]
+default = ["blst", "gpu"]
+gpu = ["filecoin-proofs-api/gpu", "bellperson/gpu"]
+pairing = ["filecoin-proofs-api/pairing", "bellperson/pairing"]
+blst = ["filecoin-proofs-api/blst", "bellperson/blst"]
+blst-portable = ["bls-signatures/blst-portable", "blstrs/portable"]
